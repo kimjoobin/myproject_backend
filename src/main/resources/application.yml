@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/myproject?serverTimezone=Asia/Seoul
+    username: root
+    password: wnqls428!
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
+server:
+  port: 9200
+
