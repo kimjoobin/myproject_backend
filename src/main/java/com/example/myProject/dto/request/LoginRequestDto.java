@@ -9,17 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberJoinRequestDto {
-
-    private String username;
+public class LoginRequestDto {
 
     private String email;
 
-    private String phone;
-
-    private String birthDay;
-
     private String password;
-
-    private String confirmPassword;
 }

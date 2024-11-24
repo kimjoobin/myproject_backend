@@ -8,4 +8,6 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByDelYn(String delYn);
+
+    Board findByBoardId(Long boardId);
 }

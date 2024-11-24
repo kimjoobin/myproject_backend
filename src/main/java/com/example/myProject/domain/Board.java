@@ -1,5 +1,6 @@
 package com.example.myProject.domain;
 
+import com.example.myProject.domain.Enum.StatusYn;
 import com.example.myProject.dto.request.MemberJoinRequestDto;
 import com.example.myProject.dto.request.ModifyBoardRequestDto;
 import com.example.myProject.dto.request.RegisterBoardRequestDto;
@@ -45,7 +46,7 @@ public class Board {
                 .title(requestDto.getTitle())
                 .contents(requestDto.getContents())
                 .viewCount(0)
-                .delYn("N")
+                .delYn(StatusYn.N.getStatus())
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -54,5 +55,9 @@ public class Board {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public void deleteBoard() {
+        this.delYn = StatusYn.Y.getStatus();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.myProject.service;
 
 import com.example.myProject.domain.Board;
+import com.example.myProject.domain.Enum.StatusYn;
 import com.example.myProject.domain.Member;
 import com.example.myProject.dto.request.ModifyBoardRequestDto;
 import com.example.myProject.dto.request.RegisterBoardRequestDto;
@@ -27,19 +28,23 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<BoardListResponseDto> getBoards() {
-        List<Board> boards = boardRepository.findByDelYn("N");
+        List<Board> boards = boardRepository.findByDelYn(StatusYn.N.getStatus());
 
         return boards.stream()
                 .map(BoardListResponseDto::fromBoard)
                 .toList();
-
     }
 
-    public void registerBoard(RegisterBoardRequestDto requestDto) {
+    public String registerBoard(RegisterBoardRequestDto requestDto) {
         Member member = memberRepository.findById(1L)
                 .orElseThrow(() -> new IllegalArgumentException("not found"));
 
-        boardRepository.save(Board.createBoard(requestDto, member));
+        Board board = boardRepository.save(Board.createBoard(requestDto, member));
+        if (board.getBoardId() == null) {
+            return "fail";
+        } else {
+            return "ok";
+        }
     }
 
     @Transactional(readOnly = true)
@@ -54,7 +59,12 @@ public class BoardService {
         board.updateBoard(requestDto);
     }
 
+    public void deleteBoard(Long boardId) {
+        Board board = findBoard(boardId);
+        board.deleteBoard();
+    }
+
     private Board findBoard(Long boardId) {
-        return boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("not found"));
+        return boardRepository.findByBoardId(boardId);
     }
 }

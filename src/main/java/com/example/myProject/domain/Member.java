@@ -29,16 +29,22 @@ public class Member {
 
     private String birthDate;
 
+    private String phone;
+
+    @Column(name = "refresh_token", columnDefinition = "VARCHAR(500) COMMENT 'refresh token'")
+    private String refreshToken;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     public static Member createMember(MemberJoinRequestDto requestDto) {
         return Member.builder()
-                .name(requestDto.getName())
+                .name(requestDto.getUsername())
                 .email(requestDto.getEmail())
                 .password(requestDto.getPassword())
-                .birthDate(requestDto.getBirthDate())
+                .phone(requestDto.getPhone())
+                .birthDate(requestDto.getBirthDay())
                 .createdAt(LocalDateTime.now())
                 .build();
     }

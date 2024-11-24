@@ -20,6 +20,8 @@ public class BoardListResponseDto {
 
     private String writer;
 
+    private Integer viewCount;
+
     private String createdAt;
 
     public static BoardListResponseDto fromBoard(Board board) {
@@ -27,6 +29,7 @@ public class BoardListResponseDto {
                 .boardId(board.getBoardId())
                 .title(board.getTitle())
                 .writer(board.getMember().getName())
+                .viewCount(board.getViewCount())
                 .createdAt(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm").format(board.getCreatedAt()))
                 .build();
     }
