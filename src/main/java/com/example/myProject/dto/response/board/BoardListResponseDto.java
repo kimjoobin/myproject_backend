@@ -1,12 +1,9 @@
 package com.example.myProject.dto.response.board;
 
-import com.example.myProject.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +21,7 @@ public class BoardListResponseDto {
 
     private String createdAt;
 
-    public static BoardListResponseDto fromBoard(Board board) {
+    /*public static BoardListResponseDto fromBoard(Board board) {
         return BoardListResponseDto.builder()
                 .boardId(board.getBoardId())
                 .title(board.getTitle())
@@ -32,6 +29,6 @@ public class BoardListResponseDto {
                 .viewCount(board.getViewCount())
                 .createdAt(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm").format(board.getCreatedAt()))
                 .build();
-    }
+    }*/
 
 }

@@ -1,8 +1,8 @@
 package com.example.myProject.service;
 
 import com.example.myProject.domain.Board;
-import com.example.myProject.domain.Enum.StatusYn;
 import com.example.myProject.domain.Member;
+import com.example.myProject.dto.request.BoardSearchRequestDto;
 import com.example.myProject.dto.request.ModifyBoardRequestDto;
 import com.example.myProject.dto.request.RegisterBoardRequestDto;
 import com.example.myProject.dto.response.board.BoardDetailResponseDto;
@@ -10,12 +10,10 @@ import com.example.myProject.dto.response.board.BoardListResponseDto;
 import com.example.myProject.repository.BoardRepository;
 import com.example.myProject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -27,16 +25,18 @@ public class BoardService {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    public List<BoardListResponseDto> getBoards() {
-        List<Board> boards = boardRepository.findByDelYn(StatusYn.N.getStatus());
-
-        return boards.stream()
-                .map(BoardListResponseDto::fromBoard)
-                .toList();
+    public Page<BoardListResponseDto> getBoards(BoardSearchRequestDto requestDto) {
+        return boardRepository.getBoardList(requestDto);
     }
 
     public String registerBoard(RegisterBoardRequestDto requestDto) {
-        Member member = memberRepository.findById(1L)
+        if (!StringUtils.hasText(requestDto.getTitle())
+                || !StringUtils.hasText(requestDto.getContents())
+        ) {
+            return "필수 항목이 누락되었습니다.";
+        }
+
+        Member member = memberRepository.findById(2L)
                 .orElseThrow(() -> new IllegalArgumentException("not found"));
 
         Board board = boardRepository.save(Board.createBoard(requestDto, member));

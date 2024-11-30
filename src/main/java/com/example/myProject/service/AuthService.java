@@ -20,7 +20,6 @@ public class AuthService {
 
     @Transactional
     public String joinMember(MemberJoinRequestDto requestDto) {
-
         if (!StringUtils.hasText(requestDto.getEmail())) {
             return "이메일을 입력해주세요.";
         }

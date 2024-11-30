@@ -1,5 +1,6 @@
 package com.example.myProject.controller;
 
+import com.example.myProject.dto.request.BoardSearchRequestDto;
 import com.example.myProject.dto.request.ModifyBoardRequestDto;
 import com.example.myProject.dto.request.RegisterBoardRequestDto;
 import com.example.myProject.dto.response.board.BoardDetailResponseDto;
@@ -7,10 +8,9 @@ import com.example.myProject.dto.response.board.BoardListResponseDto;
 import com.example.myProject.handler.ApiResponse;
 import com.example.myProject.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +20,10 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("")
-    public ResponseEntity<ApiResponse<List<BoardListResponseDto>>> getBoards() {
+    public ResponseEntity<ApiResponse<Page<BoardListResponseDto>>> getBoards(BoardSearchRequestDto requestDto) {
         try {
-            List<BoardListResponseDto> boards = boardService.getBoards();
+            System.out.println("requestDto = " + requestDto);
+            Page<BoardListResponseDto> boards = boardService.getBoards(requestDto);
             return ResponseEntity.ok(ApiResponse.success(boards));
         } catch (Exception e) {
             return ResponseEntity.ok(ApiResponse.error(e.getMessage()));
